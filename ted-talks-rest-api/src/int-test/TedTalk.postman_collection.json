@@ -134,7 +134,9 @@
 							"\r",
 							"pm.test(\"ted_talk_id is same as response from post\", () => {\r",
 							"  const responseJson = pm.response.json();\r",
-							"  pm.expect(responseJson.id).to.eql(ted_talk_id);\r",
+							"  \r",
+							"  pm.expect(responseJson[responseJson.length-1].id).to.eql(ted_talk_id);\r",
+							"  pm.expect(responseJson[responseJson.length-1].author).contains(\"Shridutt\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -157,15 +159,20 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8081/tedtalks/{{ted_talk_id}}",
+					"raw": "http://localhost:8081/tedtalks?author=Shridutt",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8081",
 					"path": [
-						"tedtalks",
-						"{{ted_talk_id}}"
+						"tedtalks"
+					],
+					"query": [
+						{
+							"key": "author",
+							"value": "Shridutt"
+						}
 					]
 				}
 			},
