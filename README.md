@@ -149,7 +149,8 @@ Below URls can be called with a client e.g. cURL, postman once the app is up and
 ## Screenshots:
 
 Screenshots of API output are available under screenshots directory of this repository
-	
+![Postman Test Results](screenshots/postman_tests.PNG)
+
 ## Desclaimer:
 
 - Completed Project is implemented solely by:
@@ -159,14 +160,17 @@ Screenshots of API output are available under screenshots directory of this repo
 	+91-9713740276
 
 - Implementation is done as per developer's understanding from the given Instructions and restrictions.
-- Multiple Tradeoffs are made while implementation of this project like:
+
+## Multiple Tradeoffs are made while implementation of this project like:
 	
-	JUnit test cases are not implemented for all classes and methods
-	Postman test cases are not implemented to cover all functional scenarios
-	Enough Exception handling is not implemented due to time constraints
-	In Memory DB is used
-	Only 4 REST end-points are exposed
-	No validation on Data is perforemd before loading from data sources like csv
-	No duplication is checked on Data before loading it from data sources like csv
-	PATCH endpoint is not workign currently and Need to be fixed, issue is with runing update query on H2 DB, its throwing incompatible data type exception
-## ----------------------------------------------------------------------------------------------------------------------------------------
+-  JUnit test cases are not implemented for all classes and methods
+-  Postman test cases are not implemented to cover all functional scenarios
+-  Enough Exception handling is not implemented due to time constraints
+-  In Memory DB is used
+-  Only 4 REST end-points are exposed
+-  No validation on Data is perforemd before loading from data sources like csv
+-  No duplication is checked on Data before loading it from data sources like csv
+-  PATCH endpoint is not workign currently and Need to be fixed, issue is with runing update query on H2 DB, its throwing incompatible data type exception
+
+
+
