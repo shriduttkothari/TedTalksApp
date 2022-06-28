@@ -42,7 +42,6 @@ public class TedTalkServiceImpl implements TedTalksService {
 			return tedTalkOptional.get();
 		}
 		throw new NoTedTalkFoundException();
-
 	}
 
 	@Override
@@ -54,5 +53,14 @@ public class TedTalkServiceImpl implements TedTalksService {
 			return tedTalkList;
 		}
 		throw new NoTedTalkFoundException();
+	}
+	
+	@Override
+	public void deleteTedTalkById(Integer tedTalkId) {
+		boolean tedTalkDeleted = tedTalkRepository.deleteTedTalksById(tedTalkId);
+		if (!tedTalkDeleted) {
+			throw new NoTedTalkFoundException();
+		}
+		
 	}
 }

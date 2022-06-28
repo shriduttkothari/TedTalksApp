@@ -12,9 +12,11 @@ public interface TedTalkRepository {
 
 	public TedTalk saveTedTalk(TedTalk tedTalk);
 
-	Optional<TedTalk> getTedTalksById(int id);
+	public Optional<TedTalk> getTedTalksById(Integer tedTalkId);
 
 	public List<TedTalk> getTedTalksByMultipleFilters(String author, String title, BigInteger viewsLessThan,
 			BigInteger viewsMoreThan, BigInteger likesLessThan, BigInteger likesMoreThan);
+
+	public boolean deleteTedTalksById(Integer tedTalkId);
 
 }

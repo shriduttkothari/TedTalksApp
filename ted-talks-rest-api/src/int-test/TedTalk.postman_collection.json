@@ -6,6 +6,91 @@
 	},
 	"item": [
 		{
+			"name": "Fetch TedTalk By Author",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", () => {\r",
+							"  pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ted_talk_id is same as response from post\", () => {\r",
+							"  const responseJson = pm.response.json();\r",
+							"  \r",
+							"  pm.expect(responseJson.errorMessage).to.eql(\"No Ted Talk Found\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Ted Talk Added From Postman using REST API\",\r\n    \"author\": \"Shridutt Kothari\",\r\n    \"date\": \"June 2022\",\r\n    \"views\": 1,\r\n    \"likes\": 1,\r\n    \"link\": \"https://ted.com/talks/ozawa_bineshi_albert_climate_action_needs_new_frontline_leadership\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/tedtalks?author=Shridutt&title=Postman&likes_less_than=2&views_less_than=2&likes_more_than=0&views_more_than=0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"tedtalks"
+					],
+					"query": [
+						{
+							"key": "author",
+							"value": "Shridutt"
+						},
+						{
+							"key": "title",
+							"value": "Postman"
+						},
+						{
+							"key": "likes_less_than",
+							"value": "2"
+						},
+						{
+							"key": "views_less_than",
+							"value": "2"
+						},
+						{
+							"key": "likes_more_than",
+							"value": "0"
+						},
+						{
+							"key": "views_more_than",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create TedTalk",
 			"event": [
 				{
@@ -159,7 +244,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8081/tedtalks?author=Shridutt",
+					"raw": "http://localhost:8081/tedtalks?author=Shridutt&title=Postman&likes_less_than=2&views_less_than=2&likes_more_than=0&views_more_than=0",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -172,7 +257,142 @@
 						{
 							"key": "author",
 							"value": "Shridutt"
+						},
+						{
+							"key": "title",
+							"value": "Postman"
+						},
+						{
+							"key": "likes_less_than",
+							"value": "2"
+						},
+						{
+							"key": "views_less_than",
+							"value": "2"
+						},
+						{
+							"key": "likes_more_than",
+							"value": "0"
+						},
+						{
+							"key": "views_more_than",
+							"value": "0"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete TedTalk By Id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var ted_talk_id = pm.collectionVariables.get(\"ted_talk_id\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var ted_talk_id = pm.collectionVariables.get(\"ted_talk_id\");\r",
+							"\r",
+							"pm.test(\"Status code is 200\", () => {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Ted Talk Added From Postman using REST API\",\r\n    \"author\": \"Shridutt Kothari\",\r\n    \"date\": \"June 2022\",\r\n    \"views\": 1,\r\n    \"likes\": 1,\r\n    \"link\": \"https://ted.com/talks/ozawa_bineshi_albert_climate_action_needs_new_frontline_leadership\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/tedtalks/{{ted_talk_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"tedtalks",
+						"{{ted_talk_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch TedTalk By Id After Delete",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var ted_talk_id = pm.collectionVariables.get(\"ted_talk_id\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", () => {\r",
+							"  pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ted_talk_id is same as response from post\", () => {\r",
+							"  const responseJson = pm.response.json();\r",
+							"  \r",
+							"  pm.expect(responseJson.errorMessage).to.eql(\"No Ted Talk Found\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Ted Talk Added From Postman using REST API\",\r\n    \"author\": \"Shridutt Kothari\",\r\n    \"date\": \"June 2022\",\r\n    \"views\": 1,\r\n    \"likes\": 1,\r\n    \"link\": \"https://ted.com/talks/ozawa_bineshi_albert_climate_action_needs_new_frontline_leadership\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/tedtalks/{{ted_talk_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"tedtalks",
+						"{{ted_talk_id}}"
 					]
 				}
 			},

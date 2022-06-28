@@ -48,9 +48,9 @@ public class TedTalkRepositoryImpl implements TedTalkRepository {
 	}
 
 	@Override
-	public Optional<TedTalk> getTedTalksById(int id) {
-		List<TedTalk> tedTalkList = jdbcTemplate.query("SELECT * FROM " + TABLE_NAME + " Where ted_talk_id = " + id,
-				(resultSet, row) -> {
+	public Optional<TedTalk> getTedTalksById(Integer tedTalkId) {
+		List<TedTalk> tedTalkList = jdbcTemplate
+				.query("SELECT * FROM " + TABLE_NAME + " Where ted_talk_id = " + tedTalkId, (resultSet, row) -> {
 					return mapResultSetToTedTalk(resultSet);
 				});
 
@@ -104,7 +104,7 @@ public class TedTalkRepositoryImpl implements TedTalkRepository {
 			filters.add(" " + COLUMNS_NAMES[4] + " < " + likesLessThan);
 		}
 		if (null != likesMoreThan) {
-			filters.add(" " + COLUMNS_NAMES[4] + " > " + likesLessThan);
+			filters.add(" " + COLUMNS_NAMES[4] + " > " + likesMoreThan);
 		}
 
 		if (filters.isEmpty()) {
@@ -122,6 +122,12 @@ public class TedTalkRepositoryImpl implements TedTalkRepository {
 		});
 
 		return tedTalkList;
+	}
+
+	@Override
+	public boolean deleteTedTalksById(Integer tedTalkId) {
+		int tedTalksDeleted = jdbcTemplate.update("DELETE FROM " + TABLE_NAME + " Where ted_talk_id = " + tedTalkId);
+		return tedTalksDeleted > 0;
 	}
 
 }

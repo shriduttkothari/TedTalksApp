@@ -15,5 +15,7 @@ public interface TedTalksService {
 
 	public List<TedTalk> getTedTalksByMultipleFilters(String author, String title,
 			BigInteger viewsLessThan, BigInteger viewsMoreThan, BigInteger likesLessThan, BigInteger likesMoreThan);
+	
+	public void deleteTedTalkById(Integer tedTalkId);
 
 }
