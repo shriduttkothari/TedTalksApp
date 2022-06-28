@@ -19,4 +19,6 @@ public interface TedTalkRepository {
 
 	public boolean deleteTedTalksById(Integer tedTalkId);
 
+	public boolean patchTedTalk(Integer tedTalkId, TedTalk tedTalk);
+
 }

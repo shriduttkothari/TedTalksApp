@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +35,7 @@ public class TedTalksController {
 	@GetMapping(path = "/tedtalks/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<TedTalk> getTedTalksById(@PathVariable(name = "id", required = true) Integer tedTalkId) {
 		TedTalk tedTalk = tedTalksService.getTedTalkById(tedTalkId);
-		return ResponseEntity.ok(tedTalk);
+		return ResponseEntity.status(HttpStatus.OK).body(tedTalk);
 	}
 
 	@GetMapping(path = "/tedtalks", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -47,12 +48,19 @@ public class TedTalksController {
 			@RequestParam(name = "likes_more_than", required = false) BigInteger likesMoreThan) {
 		List<TedTalk> tedTalkList = tedTalksService.getTedTalksByMultipleFilters(author, title, viewsLessThan,
 				viewsMoreThan, likesLessThan, likesMoreThan);
-		return ResponseEntity.ok(tedTalkList);
+		return ResponseEntity.status(HttpStatus.OK).body(tedTalkList);
 	}
 
 	@DeleteMapping(path = "/tedtalks/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Void> deleteTedTalksById(@PathVariable(name = "id", required = true) Integer tedTalkId) {
 		tedTalksService.deleteTedTalkById(tedTalkId);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PatchMapping(path = "/tedtalks/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Void> patchTedTalk(@PathVariable(name = "id", required = true) Integer tedTalkId, @RequestBody TedTalk tedTalk) {
+		tedTalksService.patchTedTalk(tedTalkId, tedTalk);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

@@ -18,4 +18,6 @@ public interface TedTalksService {
 	
 	public void deleteTedTalkById(Integer tedTalkId);
 
+	public void patchTedTalk(Integer tedTalkId, TedTalk tedTalk);
+
 }

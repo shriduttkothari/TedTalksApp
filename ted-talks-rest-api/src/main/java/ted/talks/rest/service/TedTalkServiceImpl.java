@@ -63,4 +63,12 @@ public class TedTalkServiceImpl implements TedTalksService {
 		}
 		
 	}
+
+	@Override
+	public void patchTedTalk(Integer tedTalkId, TedTalk tedTalk) {
+		boolean tedTalkUpdated = tedTalkRepository.patchTedTalk(tedTalkId, tedTalk);
+		if (!tedTalkUpdated) {
+			throw new NoTedTalkFoundException();
+		}
+	}
 }
