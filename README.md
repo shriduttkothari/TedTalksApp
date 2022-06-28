@@ -1,6 +1,8 @@
 # TedTalksApp
 CRUD (Create/Read/Update/Delete) functionality for TedTalks
 
+[Deatils Project Requirements](Java_programming_intake.pdf)
+
 ## Project Description
 
 This is a Multi-Maven module Project it uses SpringBoot Framework version 2.3.6.RELEASE.
