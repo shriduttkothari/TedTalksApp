@@ -17,25 +17,17 @@ public class TedTalkServiceImpl implements TedTalksService {
 
 	private final TedTalkRepository tedTalkRepository;
 
+	/**
+	 * TODO:<br>
+	 * <br>
+	 * 1. We can convert the List of TedTalk into List of TedTalk DTO class before
+	 * returning it to controller <br>
+	 * <br>
+	 * 2. USe limit and offset as we can not return all the data from the db to user
+	 */
 	@Override
 	public List<TedTalk> getAllTedTalks() {
-		// TODO: We can convert the List of TedTalk into List of TedTalk DTO class before
-		// returning it to controller
 		return tedTalkRepository.getAllTedTalks();
-	}
-
-	@Override
-	public List<TedTalk> getTedTalksWithLikesLessThan(BigInteger likes) {
-		// TODO: We can convert the List of TedTalk into List of TedTalk DTO class before
-		// returning it to controller
-		return tedTalkRepository.getTedTalksWithLikesLessThan(likes);
-	}
-
-	@Override
-	public List<TedTalk> getTedTalksWithLikesGreaterThan(BigInteger likes) {
-		// TODO: We can convert the List of TedTalk into List of TedTalk DTO class before
-		// returning it to controller
-		return tedTalkRepository.getTedTalksWithLikesGreaterThan(likes);
 	}
 
 	@Override
@@ -54,8 +46,10 @@ public class TedTalkServiceImpl implements TedTalksService {
 	}
 
 	@Override
-	public List<TedTalk> getTedTalksByAuthor(String author) {
-		List<TedTalk> tedTalkList = tedTalkRepository.getTedTalksByAuthor(author);
+	public List<TedTalk> getTedTalksByMultipleFilters(String author, String title, BigInteger viewsLessThan,
+			BigInteger viewsMoreThan, BigInteger likesLessThan, BigInteger likesMoreThan) {
+		List<TedTalk> tedTalkList = tedTalkRepository.getTedTalksByMultipleFilters(author, title, viewsLessThan,
+				viewsMoreThan, likesLessThan, likesMoreThan);
 		if (!tedTalkList.isEmpty()) {
 			return tedTalkList;
 		}

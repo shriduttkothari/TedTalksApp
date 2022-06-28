@@ -31,27 +31,21 @@ public class TedTalksController {
 	}
 
 	@GetMapping(path = "/tedtalks/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<TedTalk> getTedTalksById(@PathVariable(name = "id") Integer tedTalkId) {
+	public ResponseEntity<TedTalk> getTedTalksById(@PathVariable(name = "id", required = true) Integer tedTalkId) {
 		TedTalk tedTalk = tedTalksService.getTedTalkById(tedTalkId);
 		return ResponseEntity.ok(tedTalk);
 	}
 
 	@GetMapping(path = "/tedtalks", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<TedTalk>> getTedTalksByAuthor(@RequestParam(name = "author") String author) {
-		List<TedTalk> tedTalkList = tedTalksService.getTedTalksByAuthor(author);
-		return ResponseEntity.ok(tedTalkList);
-	}
-
-	@GetMapping(path = "/tedtalks/likeslessthan")
-	public ResponseEntity<List<TedTalk>> getTedTalksWithLikesLessThan(@RequestParam(name = "limit") BigInteger limit) {
-		List<TedTalk> tedTalkList = tedTalksService.getTedTalksWithLikesLessThan(limit);
-		return ResponseEntity.ok(tedTalkList);
-	}
-
-	@GetMapping(path = "/tedtalks/likesgreaterthan")
-	public ResponseEntity<List<TedTalk>> getTedTalksWithLikesGreaterThan(
-			@RequestParam(name = "limit") BigInteger limit) {
-		List<TedTalk> tedTalkList = tedTalksService.getTedTalksWithLikesGreaterThan(limit);
+	public ResponseEntity<List<TedTalk>> getTedTalksByAuthor(
+			@RequestParam(name = "author", required = false) String author,
+			@RequestParam(name = "title", required = false) String title,
+			@RequestParam(name = "views_less_than", required = false) BigInteger viewsLessThan,
+			@RequestParam(name = "views_more_than", required = false) BigInteger viewsMoreThan,
+			@RequestParam(name = "likes_less_than", required = false) BigInteger likesLessThan,
+			@RequestParam(name = "likes_more_than", required = false) BigInteger likesMoreThan) {
+		List<TedTalk> tedTalkList = tedTalksService.getTedTalksByMultipleFilters(author, title, viewsLessThan,
+				viewsMoreThan, likesLessThan, likesMoreThan);
 		return ResponseEntity.ok(tedTalkList);
 	}
 

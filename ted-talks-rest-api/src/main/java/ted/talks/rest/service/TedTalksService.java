@@ -11,12 +11,9 @@ public interface TedTalksService {
 
 	public TedTalk saveTedTalk(TedTalk tedTalk);
 
-	public List<TedTalk> getTedTalksWithLikesLessThan(BigInteger likes);
-
-	public List<TedTalk> getTedTalksWithLikesGreaterThan(BigInteger likes);
-
 	public TedTalk getTedTalkById(Integer tedTalkId);
 
-	public List<TedTalk> getTedTalksByAuthor(String author);
+	public List<TedTalk> getTedTalksByMultipleFilters(String author, String title,
+			BigInteger viewsLessThan, BigInteger viewsMoreThan, BigInteger likesLessThan, BigInteger likesMoreThan);
 
 }

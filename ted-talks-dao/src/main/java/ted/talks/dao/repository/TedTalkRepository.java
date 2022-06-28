@@ -10,14 +10,11 @@ public interface TedTalkRepository {
 
 	public List<TedTalk> getAllTedTalks();
 
-	public List<TedTalk> getTedTalksWithLikesLessThan(BigInteger likes);
-
-	public List<TedTalk> getTedTalksWithLikesGreaterThan(BigInteger Likes);
-
 	public TedTalk saveTedTalk(TedTalk tedTalk);
 
 	Optional<TedTalk> getTedTalksById(int id);
 
-	public List<TedTalk> getTedTalksByAuthor(String author);
+	public List<TedTalk> getTedTalksByMultipleFilters(String author, String title, BigInteger viewsLessThan,
+			BigInteger viewsMoreThan, BigInteger likesLessThan, BigInteger likesMoreThan);
 
 }

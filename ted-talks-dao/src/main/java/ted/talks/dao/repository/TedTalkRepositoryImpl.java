@@ -6,8 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -32,26 +35,6 @@ public class TedTalkRepositoryImpl implements TedTalkRepository {
 		List<TedTalk> tedTalkList = jdbcTemplate.query("SELECT * FROM " + TABLE_NAME, (resultSet, row) -> {
 			return mapResultSetToTedTalk(resultSet);
 		});
-
-		return tedTalkList;
-	}
-
-	@Override
-	public List<TedTalk> getTedTalksWithLikesLessThan(BigInteger likes) {
-		List<TedTalk> tedTalkList = jdbcTemplate.query("SELECT * FROM " + TABLE_NAME + " Where likes < " + likes,
-				(resultSet, row) -> {
-					return mapResultSetToTedTalk(resultSet);
-				});
-
-		return tedTalkList;
-	}
-
-	@Override
-	public List<TedTalk> getTedTalksWithLikesGreaterThan(BigInteger Likes) {
-		List<TedTalk> tedTalkList = jdbcTemplate.query("SELECT * FROM " + TABLE_NAME + " Where Likes > " + Likes,
-				(resultSet, row) -> {
-					return mapResultSetToTedTalk(resultSet);
-				});
 
 		return tedTalkList;
 	}
@@ -100,11 +83,43 @@ public class TedTalkRepositoryImpl implements TedTalkRepository {
 	}
 
 	@Override
-	public List<TedTalk> getTedTalksByAuthor(String author) {
-		List<TedTalk> tedTalkList = jdbcTemplate.query(
-				"SELECT * FROM " + TABLE_NAME + " Where " + COLUMNS_NAMES[1] + " LIKE '%" + author +"%'", (resultSet, row) -> {
-					return mapResultSetToTedTalk(resultSet);
-				});
+	public List<TedTalk> getTedTalksByMultipleFilters(String author, String title, BigInteger viewsLessThan,
+			BigInteger viewsMoreThan, BigInteger likesLessThan, BigInteger likesMoreThan) {
+		Set<String> filters = new HashSet<>();
+		if (null != title) {
+			filters.add(" " + COLUMNS_NAMES[0] + " LIKE '%" + title + "%'");
+		}
+
+		if (null != author) {
+			filters.add(" " + COLUMNS_NAMES[1] + " LIKE '%" + author + "%'");
+		}
+
+		if (null != viewsLessThan) {
+			filters.add(" " + COLUMNS_NAMES[3] + " < " + viewsLessThan);
+		}
+		if (null != viewsMoreThan) {
+			filters.add(" " + COLUMNS_NAMES[3] + " > " + viewsMoreThan);
+		}
+		if (null != likesLessThan) {
+			filters.add(" " + COLUMNS_NAMES[4] + " < " + likesLessThan);
+		}
+		if (null != likesMoreThan) {
+			filters.add(" " + COLUMNS_NAMES[4] + " > " + likesLessThan);
+		}
+
+		if (filters.isEmpty()) {
+			throw new IllegalArgumentException("Atleast one filter needed to search the Ted Talk");
+		}
+
+		StringBuilder queryBuilder = new StringBuilder("SELECT * FROM ");
+		queryBuilder.append(TABLE_NAME);
+		queryBuilder.append(" Where");
+		String combinedFilters = filters.stream().collect(Collectors.joining(" AND "));
+		queryBuilder.append(combinedFilters);
+
+		List<TedTalk> tedTalkList = jdbcTemplate.query(queryBuilder.toString(), (resultSet, row) -> {
+			return mapResultSetToTedTalk(resultSet);
+		});
 
 		return tedTalkList;
 	}
